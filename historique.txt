@@ -1,0 +1,10 @@
+#Voici le fichier d'historique des lancements du programme ExiaSaver
+#Date format: jj/mm/yyyy hh:mm:ss
+#type d'écran lancé: 1=statique 2=dynamique 3=intéractif
+#Si 1, nom fichier, si 2, taille affichage, si 3, position initale de l'avion
+11/12/2016 19:8:51;1;ex2.pbm
+11/12/2016 19:9:5;1;2.pbm
+11/12/2016 19:9:10;2;5x3
+11/12/2016 19:11:40;1;2.pbm
+11/12/2016 19:11:41;3;9x10
+11/12/2016 19:11:43;3;9x10

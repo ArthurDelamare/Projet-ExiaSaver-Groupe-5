@@ -17,37 +17,52 @@ int main(int argc, char *argv[])
 	const char s[2] = " ";
 	char *token;
 	unsigned int n;
-	printf("\033c");  //Clear l'ecran
 
-	fichier = fopen(argv[0], "r"); //Ouvrir le fichier pbm
+	//Effacer l'ecran
+	system("clear");  
 
-	if (fichier != NULL) //Si on ouvre le fichier
+    //Ouverture du fichier pbm		
+	fichier = fopen(argv[0], "r");
+
+	//Si on ouvre le fichier
+	if (fichier != NULL) 
 	{
+	//Lecture des premieres lignes
 	fgets(ligne, 255, fichier);
-	fgets(ligne, 255, fichier); //On va lire les premieres lignes
+	fgets(ligne, 255, fichier); 
 	fgets(ligne, 255, fichier);
 
+	//Centrage de l'image en fonction des lignes 
 	for(n=0; n<(row-15)/2; n++)
 	{
 	printf("\n");
 	}
-		while(fgets(ligne, 255, fichier) != NULL) //On va lire les 0 et 1
+
+		//Lecture des 0 et des 1 et suppression des espaces
+		while(fgets(ligne, 255, fichier) != NULL) 
 		{
 		token = strtok(ligne, s);
-		for(n=0; n<(col-10)/2; n++)
+
+		//Centrage de l'image en fonction des colonnes
+		for(n=0; n<(col-20)/2; n++)
 		{
 		putchar(' ');
 		}
-			while( token != NULL) //Tant qu'il y a des 0 et 1 on continu
+
+			//Tant qu'il y a des 0 et 1 on continu
+			while( token != NULL) 
 			{
-				if(strcmp(token,"0") == 0) //On remplace les 0 par des espaces
+				//Remplacement des 0 par des espaces
+				if(strcmp(token,"0") == 0) 
 				{
 				printf(" ");
 				}
-				else if(strcmp(token,"1") == 0) //On remplace les 1 par des carres
+				//Remplacement des 1 par des carres
+				else if(strcmp(token,"1") == 0) 
 				{
 				printf("\u2588");
 				}
+				//Retour à la ligne
 				else
 				{
 				printf("\n");
@@ -55,10 +70,12 @@ int main(int argc, char *argv[])
 			token = strtok(NULL, s);
 			}
 		}
+		//Centrage de l'image en fonction des lignes
         for(n=0; n<(row-15)/2; n++)
         {
         printf("\n");
         }
+    //Fermeture du fichier pbm
 	fclose(fichier);
 	}	
 return 0;

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 #include <time.h>
 
 void analyse(char portion, char* conteneurChemin)
@@ -46,6 +47,7 @@ void analyse(char portion, char* conteneurChemin)
     {
       strcpy(conteneurChemin,"EXIASAVER2_PBM/9.pbm");
     }
+
 }
 
 
@@ -68,11 +70,13 @@ void heurePBM()
   char cheminChiffre4[25];
   char cheminChiffre5[25];
   char cheminChiffre6[25];
+  char separation1[25];
+  char separation2[25];
 
   char conteneurReec[50];
   int i;
   int nbcaractere;
-  
+
   //initialisation de la structure du temps
   time(&secondes);
   heure = *localtime(&secondes);
@@ -81,6 +85,27 @@ void heurePBM()
   sprintf(conteneurHeure,"%d",heure.tm_hour);
   sprintf(conteneurMinutes,"%d",heure.tm_min);
   sprintf(conteneurSecondes,"%d",heure.tm_sec);
+
+  if(strlen(conteneurHeure) == 1)
+  {
+  conteneurHeure[2] = conteneurHeure[1];
+  conteneurHeure[1] = conteneurHeure[0];
+  conteneurHeure[0] = '0';
+  }
+
+  if(strlen(conteneurMinutes) == 1)
+  {
+  conteneurMinutes[2] = conteneurMinutes[1];
+  conteneurMinutes[1] = conteneurMinutes[0];
+  conteneurMinutes[0] = '0';
+  }
+
+  if(strlen(conteneurSecondes) == 1)
+  {
+  conteneurSecondes[2] = conteneurSecondes[1];
+  conteneurSecondes[1] = conteneurSecondes[0];
+  conteneurSecondes[0] = '0';
+  }
 
   //chargement des chemins d'accès des fichiers à afficher
   analyse(conteneurHeure[0],cheminChiffre1);
@@ -104,7 +129,11 @@ void heurePBM()
   FILE* chiffre5;
   FILE* chiffre6;
   FILE* combinaison;
+  FILE* point1;
+  FILE* point2;
 
+  point1 = fopen("EXIASAVER2_PBM/:.pbm", "r");
+  point2 = fopen("EXIASAVER2_PBM/:.pbm", "r");
   combinaison = fopen("EXIASAVER2_PBM/combinaison.pbm","w");
   fprintf(combinaison,"P1\n#Fichier combinant des images PBM pour créer l'image PBM de l'heure\n10 10\n");
   fclose(combinaison);
@@ -125,6 +154,8 @@ void heurePBM()
       fgets(conteneurReec,50,chiffre4);
       fgets(conteneurReec,50,chiffre5);
       fgets(conteneurReec,50,chiffre6);
+      fgets(separation1, 25, point1);
+      fgets(separation2, 25, point2);
     }
 
   for(i=0;i<5;i++)
@@ -142,7 +173,11 @@ void heurePBM()
       fprintf(combinaison,"%s",conteneurReec);
 
       fprintf(combinaison,"0 ");
-      
+      fgets(separation1,25,point1);
+      nbcaractere = strlen(separation1);
+      separation1[(nbcaractere-1)] = '\0';
+      fprintf(combinaison,"%s",separation1);
+
       fgets(conteneurReec,50,chiffre3);
       nbcaractere = strlen(conteneurReec);
       conteneurReec[(nbcaractere-1)] = '\0';
@@ -156,6 +191,10 @@ void heurePBM()
       fprintf(combinaison,"%s",conteneurReec);
 
       fprintf(combinaison,"0 ");
+      fgets(separation2,25,point2);
+      nbcaractere = strlen(separation2);
+      separation2[(nbcaractere-1)] = '\0';
+      fprintf(combinaison,"%s",separation2);
 
       fgets(conteneurReec,50,chiffre5);
       nbcaractere = strlen(conteneurReec);
@@ -169,6 +208,7 @@ void heurePBM()
       conteneurReec[(nbcaractere-1)] = '\0';
       fprintf(combinaison,"%s\n",conteneurReec);
     }
+
   fclose(combinaison);
   fclose(chiffre1);
   fclose(chiffre2);
@@ -176,7 +216,9 @@ void heurePBM()
   fclose(chiffre4);
   fclose(chiffre5);
   fclose(chiffre6);
-  
+  //fclose(point);
+
+
 }
 
 

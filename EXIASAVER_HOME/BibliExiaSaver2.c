@@ -216,7 +216,8 @@ void heurePBM()
   fclose(chiffre4);
   fclose(chiffre5);
   fclose(chiffre6);
-  //fclose(point);
+  fclose(point1);
+  fclose(point2);
 
 
 }

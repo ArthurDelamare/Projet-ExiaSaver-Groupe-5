@@ -6,7 +6,7 @@
 
 void analyse(char portion, char* conteneurChemin)
 {
-  //vérifie à quel chiffre correspond le caractère envoyé et renvoit un chemin d'accès d'une image PBM, à optimiser avec un switch dans le futur
+  //Vérifie à quel chiffre correspond le caractère envoyé et renvoit un chemin d'accès d'une image PBM
   if (portion == 48)
     {
       strcpy(conteneurChemin,"EXIASAVER2_PBM/0.pbm");
@@ -53,17 +53,17 @@ void analyse(char portion, char* conteneurChemin)
 
 void heurePBM()
 {
-  //variables nécessaire pour récupérer l'heure actuelle
+  //Variables nécessaire pour récupérer l'heure actuelle
   struct tm heure;
   time_t secondes;
-  //chaine de caractères contenant les heures
+  //Chaine de caractères contenant les heures
   char conteneurHeure[3];
-  //chaine de caractères contenant les minutes
+  //Chaine de caractères contenant les minutes
   char conteneurMinutes[3];
-  //chaine de caractères contenant les secondes
+  //Chaine de caractères contenant les secondes
   char conteneurSecondes[3];
 
-  //variables contenant le chemin des images PBM composant l'heure
+  //Variables contenant le chemin des images PBM composant l'heure
   char cheminChiffre1[25];
   char cheminChiffre2[25];
   char cheminChiffre3[25];
@@ -77,15 +77,16 @@ void heurePBM()
   int i;
   int nbcaractere;
 
-  //initialisation de la structure du temps
+  //Initialisation de la structure du temps
   time(&secondes);
   heure = *localtime(&secondes);
 
-  //on met les heures, les minutes et les secondes dans des chaines de caractères
+  //On met les heures, les minutes et les secondes dans des chaines de caractères
   sprintf(conteneurHeure,"%d",heure.tm_hour);
   sprintf(conteneurMinutes,"%d",heure.tm_min);
   sprintf(conteneurSecondes,"%d",heure.tm_sec);
 
+  //Si la longeur de la variable ne contient qu'un seul caractère, alors on rajoute un caractère
   if(strlen(conteneurHeure) == 1)
   {
   conteneurHeure[2] = conteneurHeure[1];
@@ -107,7 +108,7 @@ void heurePBM()
   conteneurSecondes[0] = '0';
   }
 
-  //chargement des chemins d'accès des fichiers à afficher
+  //Chargement des chemins d'accès des fichiers à afficher
   analyse(conteneurHeure[0],cheminChiffre1);
   printf("le chemin du premier chiffre à afficher est %s\n",cheminChiffre1);
   analyse(conteneurHeure[1],cheminChiffre2);
@@ -132,12 +133,14 @@ void heurePBM()
   FILE* point1;
   FILE* point2;
 
+  //Ouverture du fichier pbm contenant les deux points
   point1 = fopen("EXIASAVER2_PBM/:.pbm", "r");
   point2 = fopen("EXIASAVER2_PBM/:.pbm", "r");
+  //Ouverture et suppression du fichier pbm 
   combinaison = fopen("EXIASAVER2_PBM/combinaison.pbm","w");
   fprintf(combinaison,"P1\n#Fichier combinant des images PBM pour créer l'image PBM de l'heure\n10 10\n");
   fclose(combinaison);
-
+  //Ouverture des fichiers pbm
   combinaison = fopen("EXIASAVER2_PBM/combinaison.pbm","a");
   chiffre1 = fopen(cheminChiffre1,"r");
   chiffre2 = fopen(cheminChiffre2,"r");
@@ -146,6 +149,7 @@ void heurePBM()
   chiffre5 = fopen(cheminChiffre5,"r");
   chiffre6 = fopen(cheminChiffre6,"r");
 
+  //Lecture des 3 premières lignes
   for(i=0;i<3;i++)
     {
       fgets(conteneurReec,50,chiffre1);
@@ -158,6 +162,7 @@ void heurePBM()
       fgets(separation2, 25, point2);
     }
 
+  //Lecture des 0 et des 1 
   for(i=0;i<5;i++)
     {
       fgets(conteneurReec,50,chiffre1);
@@ -209,6 +214,7 @@ void heurePBM()
       fprintf(combinaison,"%s\n",conteneurReec);
     }
 
+  //Fermeture des fichiers pbm
   fclose(combinaison);
   fclose(chiffre1);
   fclose(chiffre2);

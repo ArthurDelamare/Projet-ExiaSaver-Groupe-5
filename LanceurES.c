@@ -9,14 +9,12 @@
 
 int main(int argc, char* argv[],char** envp)
 {
-  //Déclaration de variables d'environnement
-  setenv("EXIASAVER_HOME","EXIASAVER_HOME",1);
-  setenv("EXIASAVER1_PBM","EXIASAVER1_PBM",1);
-  setenv("EXIASAVER2_PBM","EXIASAVER2_PBM",1);
-  setenv("EXIASAVER2_TAILLE","5x3",1);
-  setenv("EXIASAVER2_SLEEP","10",1);
-  setenv("EXIASAVER3_PBM","EXIASAVER3_PBM",1);
-  
+  if (argc == 2 && strcmp(argv[1],"-config") == 0)
+    {
+      //Changement des variables d'environnement par l'utilisateur
+      choixVarEnv();
+    }
+    
   //Déclaration de variables utilisées dans ce programme
   int nbProgramme = 0; //variable stockant le numero du programme a executé
   int pid; //variable permettant de savoir s'il s'agit du proccesus père ou fils
@@ -24,7 +22,7 @@ int main(int argc, char* argv[],char** envp)
   char chemin[256]="";
   
   system("clear");
-  if (argc == 1)
+  if ((argc == 1) || (strcmp(argv[1],"-config") == 0) )
     {
       //détermination aléatoire du programme a lancé
       srand(time(NULL));
@@ -62,7 +60,7 @@ int main(int argc, char* argv[],char** envp)
     }
   else if(argc == 2 && strcmp(argv[1],"-stats") == 0)
     {
-      printf("lancement du programme statistique\n");
+      statistique();
     }
   else
     {

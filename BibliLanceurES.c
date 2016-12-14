@@ -146,6 +146,55 @@ void triBulle(int tab[], int tailleTab)
     }
 }
 
+void statsFreqMois()
+{
+  //Tableau destiné à stocker la valeur calendaire des mois
+  int tableauLancementMois[200] = {0};
+  //Tableau destiné à stocker le nombre de lancement
+  int tableauAdditionMois[12] = {0};
+  //variable pour la manipulation du fichier historique.txt
+  FILE* historique;
+  //variable permettant de stocker une ligne de l'historique
+  char conteneur[100];
+  //variable utilisé comme compteur
+  int i=0;
+  //variable servant de séparation pour strtok()
+  char sep[2]="/";
+  
+  historique = fopen("historique.txt","r");
+
+  //On passe les quatre lignes de commentaires qui ne doivent pas être analyser
+  for(i=0;i<4;i++)
+    {
+      fgets(conteneur,100,historique);
+    }
+
+  //Obtention du mois dans chaque ligne d'historique, puis placement dans un tableau
+  while((fgets(conteneur,100,historique)) != NULL)
+    {
+      strcpy(conteneur,strtok(conteneur,sep));
+      strcpy(conteneur,strtok(NULL,sep));
+      tableauLancementMois[i]=atoi(conteneur);
+      i++;
+    }
+
+  //Tri du tableau
+  triBulle(tableauLancementMois,200);
+
+  //à chaque analyse d'un mois, incrémentation d'une valeur dans le tableau correspondant au mois analyser
+  for(i=0;i<200;i++)
+    {
+      if (tableauLancementMois[i] != 0)
+	{
+	  tableauAdditionMois[tableauLancementMois[i]-1]++;
+	}
+    }
+
+  //Affichage des statistiques
+  printf("Voici les nombres de lancements par mois:\nJanvier: %d\nFévrier: %d\nMars: %d\nAvril: %d\nMai: %d\nJuin: %d\nJuillet: %d\nAout: %d\nSeptembre: %d\nOctobre: %d\nNovembre: %d\nDecembre: %d\n",tableauAdditionMois[0],tableauAdditionMois[1],tableauAdditionMois[2],tableauAdditionMois[3],tableauAdditionMois[4],tableauAdditionMois[5],tableauAdditionMois[6],tableauAdditionMois[7],tableauAdditionMois[8],tableauAdditionMois[9],tableauAdditionMois[10],tableauAdditionMois[11]);
+  fclose(historique);
+}
+
 void statsTypeTS()
 {
   //Tableau destiné à stocker les données brutes sur les termSavers utilisés
@@ -155,11 +204,16 @@ void statsTypeTS()
   //variable utilisé comme compteur
   int i=0;
   //variable stockant l'addition des différents types d'écrans utilisés
-  int type1, type2, type3;
+  float type1 = 0;
+  float type2 = 0;
+  float type3 = 0;
+  float totalType = 0;
   //Variable permettant de stocker une ligne de l'historique
   char container[100];
   //caractère de séparation pour l'utilisation de strtok()
   char sep[2]=";";
+  //chaine de caractère utilisé pour afficher le caractère "%"
+  char pourcent[2]="%";
   
   historique = fopen("historique.txt","r");
 
@@ -184,17 +238,110 @@ void statsTypeTS()
   
   for(i=0;i<200;i++)
     {
-      
-      printf("%d - ",tableauTypeTS[i]);
+      if (tableauTypeTS[i] == 1)
+	{
+	  type1++;
+	}
+      if (tableauTypeTS[i] == 2)
+	{
+	  type2++;
+	}
+      if (tableauTypeTS[i] == 3)
+	{
+	  type3++;
+	}
     }
+  totalType = type1+type2+type3;
+
+  printf("Il y a eu %.0f lancements, dont %.2f%s d'écrans statiques, %.2f%s d'écrans dynamiques et %.2f%s d'écrans intéractifs\n", totalType,type1*100/totalType,pourcent,type2*100/totalType,pourcent,type3*100/totalType,pourcent);
+  
+}
+
+void statsImgStatique()
+{
+  //Tableau destiné à contenir les nom des images repertoriées dans l'historique
+  char tableauImgHisto[200][15];
+  //
+  FILE* historique;
+  //
+  char conteneur[100];
+  //
+  int i;
+  //
+  char sep[2]=";";
+  //
+  float pomme = 0;
+  float ex2 = 0;
+  float ex3 = 0;
+  float numero2 = 0;
+  float numero3 = 0;
+  float totalImg = 0;
+  //
+  char pourcent[2]="%";
+
+  historique = fopen("historique.txt","r");
+
+  //
+  for(i=0;i<4;i++)
+    {
+      fgets(conteneur,100,historique);
+    }
+
+  //
+  while((fgets(conteneur,100,historique)) != NULL)
+    {
+      //
+      strcpy(conteneur,strtok(conteneur,sep));
+      strcpy(conteneur,strtok(NULL,sep));
+      if (strcmp(conteneur,"1") ==0)
+	{
+	  strcpy(conteneur,strtok(NULL,sep));
+	  //
+	  if (strcmp(conteneur,"pomme.pbm\n") == 0)
+	    {
+	      pomme++;
+	    }
+	  else if (strcmp(conteneur,"ex2.pbm\n") == 0)
+	    {
+	      ex2++;
+	    }
+	  else if (strcmp(conteneur,"ex3.pbm\n") == 0)
+	    {
+	      ex3++;
+	    }
+	  else if (strcmp(conteneur,"2.pbm\n") == 0)
+	    {
+	      numero2++;
+	    }
+	  else if (strcmp(conteneur,"3.pbm\n") == 0)
+	    {
+	      numero3++;
+	    }
+	}
+    }
+
+  totalImg = pomme + ex2 + ex3 + numero2 + numero3;
+  printf("Il y a eu un total de %.0f lancements, pour %.2f%s de pomme.pbm, %.2f%s de ex2.pbm, %.2f%s de ex3.pbm, %.2f%s de 2.pbm et %.2f%s de 3.pbm\n",totalImg,pomme*100/totalImg,pourcent,ex2*100/totalImg,pourcent,ex3*100/totalImg,pourcent,numero2*100/totalImg,pourcent,numero3*100/totalImg,pourcent); 
 }
 
 void statistique()
 {
   //choix d'une statistique par l'utilisateur
   int choixStats;
-  printf("Bienvenue dans la partie statistique (effectué sur un échantillon de 50 lancements maximum)\nQuelle est la statistique qui vous intéresse ?\n1: la moyenne de lancement par mois\n2: le pourcentage de lancement selon les types de termSaver\n3: l'image lancée le plus souvent en termSaver statique\n4: les dimensions de PBM les plus fréquentes dans le termSaver dynamique\n");
+  printf("Bienvenue dans la partie statistique (effectué sur un échantillon de 200 lancements maximum)\nQuelle est la statistique qui vous intéresse ?\n1: la moyenne de lancement par mois\n2: le pourcentage de lancement selon les types de termSaver\n3: le pourcentage d'utilisation des différentes images en screenSaver statique\n");
   scanf("%d",&choixStats);
-  statsTypeTS();
+  if (choixStats == 1)
+    {
+      statsFreqMois();
+    }
+  
+  else if (choixStats == 2)
+    {
+      statsTypeTS();
+    }
+  else if (choixStats == 3)
+    {
+      statsImgStatique();
+    }
 }
 

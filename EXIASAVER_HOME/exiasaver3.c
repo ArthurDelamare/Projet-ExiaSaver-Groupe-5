@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <time.h>
 #include "BibliES3.h"
 
 int main(int argc, char* argv[], char** envp)
@@ -12,10 +13,31 @@ int main(int argc, char* argv[], char** envp)
   int y=11;
   //tableau à deux dimensions définissant le terrain dans lequel l'avion se déplace
   int tabTerrain[23][60] = {0};
-  char move = 'd';
+  char move;
   char tempmove;
   int pid;
-  
+  int position = 0;
+
+  srand(time(NULL));
+  position = (rand() % 4) + 1;
+
+  if(position == 1)
+  {
+  	move ='d';
+  }
+  if(position == 2)
+  {
+  	move = 'q';
+  }
+  if(position == 3)
+  {
+  	move = 's';
+  }
+  if(position == 4)
+  {
+  	move = 'z';
+  }
+
 
   while(move != 'e')
     {
@@ -43,10 +65,6 @@ int main(int argc, char* argv[], char** envp)
 	  initTableau(tabTerrain);
 	  moveBas(x,y,tabTerrain);
 	  y++;
-	  if (y>21)
-	    {
-	      y=y-20;
-	    }
 	}
       
       printTabPBM(tabTerrain);
@@ -65,5 +83,6 @@ int main(int argc, char* argv[], char** envp)
 	  }
       }
     }
+  system("clear");
   return (0);
 }

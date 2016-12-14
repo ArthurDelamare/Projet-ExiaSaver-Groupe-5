@@ -83,7 +83,17 @@ void moveBas(int x, int y,int tab[23][60])
  //Rangée centrale de l'avion
   tab[y][x]=1;
   tab[y+1][x]=1;
+  if (y+1>22)
+    {
+      tab[y+1][x]=0;
+      tab[y+1-22][x]=1;
+    }
   tab[y+2][x]=1;
+  if (y+2>22)
+    {
+      tab[y+2][x]=0;
+      tab[y+2-22][x]=1;
+    }
   tab[y-1][x]=1;
   tab[y-2][x]=1;
   tab[y-3][x]=1;
@@ -93,8 +103,18 @@ void moveBas(int x, int y,int tab[23][60])
 
   //Ailes de l'avion
   tab[y+1][x+1]=1;
+  if (y+1>22)
+    {
+      tab[y+1][x+1]=0;
+      tab[y+1-22][x+1]=0;
+    }
   tab[y][x-2]=1;
   tab[y+1][x-1]=1;
+  if (y+1>22)
+    {
+      tab[y+1][x-1]=0;
+      tab[y+1-22][x-1]=0;
+    }
   tab[y][x+2]=1;
   
 }

@@ -13,6 +13,7 @@ int main(int argc, char* argv[], char** envp)
   //tableau à deux dimensions définissant le terrain dans lequel l'avion se déplace
   int tabTerrain[23][60] = {0};
   char move = 'd';
+  char tempmove;
   int pid;
   
 
@@ -42,6 +43,10 @@ int main(int argc, char* argv[], char** envp)
 	  initTableau(tabTerrain);
 	  moveBas(x,y,tabTerrain);
 	  y++;
+	  if (y>21)
+	    {
+	      y=y-20;
+	    }
 	}
       
       printTabPBM(tabTerrain);
@@ -53,7 +58,11 @@ int main(int argc, char* argv[], char** envp)
 	}
       else{
 	wait(NULL);
-	move=getchar();
+	tempmove=getchar();
+	if (tempmove == 'z' || tempmove == 's' || tempmove == 'd' || tempmove == 'q' || tempmove == 'e')
+	  {
+	    move=tempmove;
+	  }
       }
     }
   return (0);

@@ -1,5 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 #include "BibliES3.h"
 
 int main(int argc, char* argv[], char** envp)
@@ -8,23 +11,50 @@ int main(int argc, char* argv[], char** envp)
   int x=40;
   int y=11;
   //tableau à deux dimensions définissant le terrain dans lequel l'avion se déplace
-  int tabTerrain[23][80] = {0};
-
-  int i,j;
+  int tabTerrain[23][60] = {0};
+  char move = 'd';
+  int pid;
   
-  initTableau(tabTerrain);
-  moveDroite(x,y,tabTerrain);
-  
-  // printf("Je suis le programme 3\n");
-  // printf("la position iniatiale de l'avion est: %s\n", argv[0]);
 
-  for(j=0;j<23;j++)
+  while(move != 'e')
     {
-      for(i=0;i<80;i++)
+      //initTableau(tabTerrain);
+      if (move == 'd')
 	{
-	  printf("%d",tabTerrain[j][i]);
+	  initTableau(tabTerrain);
+	  moveDroite(x,y,tabTerrain);
+	  x++;
 	}
+      else if (move == 'q')
+	{
+	  initTableau(tabTerrain);
+	  moveGauche(x,y,tabTerrain);
+	  x--;
+	}
+      else if (move == 'z')
+	{
+	  initTableau(tabTerrain);
+	  moveHaut(x,y,tabTerrain);
+	  y--;
+	}
+      else if (move == 's')
+	{
+	  initTableau(tabTerrain);
+	  moveBas(x,y,tabTerrain);
+	  y++;
+	}
+      
+      printTabPBM(tabTerrain);
+      pid = fork();
+      if (pid==0)
+	{
+	  execl("Afficheur","EXIASAVER3_PBM/avion.pbm",NULL);
+	  exit(1);
+	}
+      else{
+	wait(NULL);
+	move=getchar();
+      }
     }
-
   return (0);
 }

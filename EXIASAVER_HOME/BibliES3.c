@@ -33,3 +33,46 @@ void moveDroite(int x,int y,int tab[][80])
   tab[y+2][x]=1;
   
 }
+
+void moveHaut(int x, int y,int tab[23][80])
+{
+ 
+ //Rangée centrale de l'avion
+  tab[y][x]=1;
+  tab[y-1][x]=1;
+  tab[y-2][x]=1;
+  tab[y+1][x]=1;
+  tab[y+2][x]=1;
+  tab[y+3][x]=1;
+
+  //Queue de l'avion
+  tab[y+3][x-1]=1;
+
+  //Ailes de l'avion
+  tab[y-1][x-1]=1;
+  tab[y][x-2]=1;
+  tab[y-1][x+1]=1;
+  tab[y][x+2]=1;
+  
+}
+void moveBas(int x, int y,int tab[23][80])
+{
+ 
+ //Rangée centrale de l'avion
+  tab[y][x]=1;
+  tab[y+1][x]=1;
+  tab[y+2][x]=1;
+  tab[y-1][x]=1;
+  tab[y-2][x]=1;
+  tab[y-3][x]=1;
+
+  //Queue de l'avion
+  tab[y-3][x+1]=1;
+
+  //Ailes de l'avion
+  tab[y+1][x+1]=1;
+  tab[y][x-2]=1;
+  tab[y+1][x-1]=1;
+  tab[y][x+2]=1;
+  
+}

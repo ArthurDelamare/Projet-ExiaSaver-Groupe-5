@@ -20,6 +20,7 @@ int main(int argc, char* argv[],char** envp)
   int pid; //variable permettant de savoir s'il s'agit du proccesus père ou fils
   int fichierChoisi;
   char chemin[256]="";
+  char adresseExe[100];
   
   system("clear");
   if ((argc == 1) || (strcmp(argv[1],"-config") == 0) )
@@ -36,20 +37,25 @@ int main(int argc, char* argv[],char** envp)
 	      fichierChoisi = (rand() % 5) + 1 ;
 	      printf("le fichier a affiche est le %d\n", fichierChoisi);
 	      choixFichier(fichierChoisi,chemin);
+	      strcpy(chemin,strcat(getenv("EXIASAVER1_PBM"),chemin));
+	      printf("Salut %s\n",chemin);
 	      historique(1,chemin,"");
-	      execl("EXIASAVER_HOME/exiasaver1",chemin,NULL);
+	      strcpy(adresseExe,getenv("EXIASAVER_HOME"));
+	      execl(strcat(adresseExe,"/exiasaver1"),chemin,NULL);
 	      exit(1);
 	    }
 	  else if (nbProgramme == 2)
 	    {
 	      historique(2,"","");
-	      execl("EXIASAVER_HOME/exiasaver2","",NULL);
+	      strcpy(adresseExe,getenv("EXIASAVER_HOME"));
+	      execl(strcat(adresseExe,"/exiasaver2"),"",NULL);
 	      exit(2);
 	    }
 	  else if (nbProgramme == 3)
 	    {
 	      historique(3,"","9x10");
-	      execl("EXIASAVER_HOME/exiasaver3","9x10",NULL);
+	      strcpy(adresseExe,getenv("EXIASAVER_HOME"));
+	      execl(strcat(adresseExe,"/exiasaver3"),"9x10",NULL);
 	      exit(3);
 	    }
 	}

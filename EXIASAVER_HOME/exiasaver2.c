@@ -8,33 +8,37 @@
 
 int main(int argc, char* argv[], char** envp)
 {
+  //Initalisation des variables
   int pid;
   int i;
   char adresseExe[75];
   char adressePBM[75];
-  
   strcpy(adresseExe,getenv("EXIASAVER_HOME"));
   strcpy(adresseExe,strcat(adresseExe,"/Afficheur"));
-
   strcpy(adressePBM,getenv("EXIASAVER2_PBM"));
   strcat(adressePBM,"/combinaison.pbm");
-  
-  printf("Je suis le programme 2, %s\n%s\n",adresseExe,adressePBM);
-  printf("la taille des lettres est: %s\n", getenv("EXIASAVER2_TAILLE"));
-  while(1)
+
+    //Création d'une boucle tant que infinie
+    while(1)
     {
+      //Appelle de la fonction
       heurePBM();
+      //Création du processus Fils
       pid = fork();
       if (pid==0)
 	{
+          //Exécution de l'afficheur
 	  execl(adresseExe,adressePBM,NULL);
 	}
       printf("\nl'image s'actualisera dans %s secondes",getenv("EXIASAVER2_SLEEP"));
       wait(NULL);
+      //Boucle en fonction de la variable d'environnement
       for (i=0;i<atoi(getenv("EXIASAVER2_SLEEP"));i++)
 	{
+          //Afficher un point
 	  printf(".");
 	  fflush(stdout);
+          //Pause d'une seconde
 	  sleep(1);
 	}
     }

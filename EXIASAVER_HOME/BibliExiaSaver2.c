@@ -8,7 +8,7 @@ void analyse(char portion, char* conteneurChemin)
 {
   char tamponVarEnv[75];
   strcpy(tamponVarEnv,getenv("EXIASAVER2_PBM"));
-  
+
   //Vérifie à quel chiffre correspond le caractère envoyé et renvoit un chemin d'accès d'une image PBM
   if (portion == 48)
     {
@@ -80,15 +80,13 @@ void heurePBM()
   int i;
   int nbcaractere;
 
-  //
+  //Initialisation d'une variable contenant la variable d'environement
   char adressePoint[75];
   char adresseCombi[75];
   strcpy(adressePoint,getenv("EXIASAVER2_PBM"));
   strcpy(adresseCombi,adressePoint);
-  //
   strcat(adressePoint,"/:.pbm");
   strcat(adresseCombi,"/combinaison.pbm");
-  printf("%s - %s\n",adressePoint,adresseCombi);
 
   //Initialisation de la structure du temps
   time(&secondes);
@@ -123,17 +121,11 @@ void heurePBM()
 
   //Chargement des chemins d'accès des fichiers à afficher
   analyse(conteneurHeure[0],cheminChiffre1);
-  printf("le chemin du premier chiffre à afficher est %s\n",cheminChiffre1);
   analyse(conteneurHeure[1],cheminChiffre2);
-  printf("le chemin du second chiffre à afficher est %s\n",cheminChiffre2);
   analyse(conteneurMinutes[0],cheminChiffre3);
-  printf("le chemin du troisieme chiffre à afficher est %s\n",cheminChiffre3);
   analyse(conteneurMinutes[1],cheminChiffre4);
-  printf("le chemin du quatrieme chiffre à afficher est %s\n",cheminChiffre4);
   analyse(conteneurSecondes[0],cheminChiffre5);
-  printf("le chemin du cinquieme chiffre à afficher est %s\n",cheminChiffre5);
   analyse(conteneurSecondes[1],cheminChiffre6);
-  printf("le chemin du cinquieme chiffre à afficher est %s\n",cheminChiffre6);
 
   //Déclaration des fichiers à utiliser
   FILE* chiffre1;
@@ -175,7 +167,7 @@ void heurePBM()
       fgets(separation2, 25, point2);
     }
 
-  //Lecture des 0 et des 1 
+  //Lecture des 0 et des 1
   for(i=0;i<5;i++)
     {
       fgets(conteneurReec,50,chiffre1);

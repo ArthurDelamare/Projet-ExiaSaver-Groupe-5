@@ -21,29 +21,29 @@ int main(int argc, char *argv[])
 	char containerForCol[10];
 
 	//Effacer l'ecran
-	system("clear");  
+	system("clear");
 
-    //Ouverture du fichier pbm		
+        //Ouverture du fichier pbm
 	fichier = fopen(argv[0], "r");
 
 	//Si on ouvre le fichier
-	if (fichier != NULL) 
+	if (fichier != NULL)
 	{
 	//Lecture des premieres lignes
 	fgets(ligne, 255, fichier);
-	fgets(ligne, 255, fichier); 
+	fgets(ligne, 255, fichier);
 	fgets(ligne, 255, fichier);
 	strcpy(containerForRow, strtok(ligne,s));
 	strcpy(containerForCol, strtok(NULL, s));
 
-	//Centrage de l'image en fonction des lignes 
+	//Centrage de l'image en fonction des lignes
 	for(n=0; n<(row-atoi(containerForRow))/2; n++)
 	{
 	printf("\n");
 	}
 
 		//Lecture des 0 et des 1 et suppression des espaces
-		while(fgets(ligne, 255, fichier) != NULL) 
+		while(fgets(ligne, 255, fichier) != NULL)
 		{
 		token = strtok(ligne, s);
 
@@ -54,15 +54,15 @@ int main(int argc, char *argv[])
 		}
 
 			//Tant qu'il y a des 0 et 1 on continu
-			while( token != NULL) 
+			while( token != NULL)
 			{
 				//Remplacement des 0 par des espaces
-				if(strcmp(token,"0") == 0) 
+				if(strcmp(token,"0") == 0)
 				{
 				printf(" ");
 				}
 				//Remplacement des 1 par des carres
-				else if(strcmp(token,"1") == 0) 
+				else if(strcmp(token,"1") == 0)
 				{
 				printf("\u2588");
 				}
@@ -81,6 +81,6 @@ int main(int argc, char *argv[])
         }
     //Fermeture du fichier pbm
 	fclose(fichier);
-	}	
+	}
 return 0;
 }

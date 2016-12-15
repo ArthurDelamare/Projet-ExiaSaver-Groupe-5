@@ -7,21 +7,23 @@
 
 int main(int argc, char* argv[],char** envp[])
 {
+  //Initialisation des variables
   int pid;
   char c;
-  
-  printf("l'argument 1 est: %s\n", argv[0]);
-  
+
+  //Création du processus Fils
   pid = fork();
   if (pid == 0)
     {
+      //On combine la variable d'environement "EXIASAVER_HOME" avec "/Afficheur" pour exécuter
       execl(strcat(getenv("EXIASAVER_HOME"),"/Afficheur"),argv[0],NULL);
     }
   else
     {
+      //Pause tant qu'une touche n'est pas entrée
       c = getchar();
       system("clear");
     }
-  
+
   return (0);
 }

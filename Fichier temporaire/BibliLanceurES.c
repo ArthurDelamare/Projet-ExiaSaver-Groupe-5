@@ -46,7 +46,11 @@ void historique(int typeTimeSaver, char* nomFichierPBM1, char* posAvion)
   char sep[2]="/";
   char stockageNom[50];
 
-    
+  //Variable permettant de stocker le chemi d'accès du fichier historique
+  char adresseHisto[75];
+  strcpy(adresseHisto,getenv("EXIASAVER_HOME"));
+  strcat(adresseHisto,"/historique.txt");
+  
   //place le nombre de secondes écoulées depuis 1970 dans la variable secondes
   time(&secondes);
   //initialise la structure temps à l'aide de la variable secondes
@@ -54,13 +58,17 @@ void historique(int typeTimeSaver, char* nomFichierPBM1, char* posAvion)
 
   //écriture du fichier historique
   FILE* fichier;
-  fichier = fopen("historique.txt","a");
+  fichier = fopen(adresseHisto,"a");
   if (typeTimeSaver == 1)
     {
       //séparation du nom du fichier du chemin complet
       strcpy(stockageNom,nomFichierPBM1);
       strcat(stockageNom,"/");
       strcpy(stockageNom,strtok(stockageNom,sep));
+      strcpy(stockageNom,strtok(NULL,sep));
+      strcpy(stockageNom,strtok(NULL,sep));
+      strcpy(stockageNom,strtok(NULL,sep));
+      strcpy(stockageNom,strtok(NULL,sep));
       strcpy(stockageNom,strtok(NULL,sep));
       
       fprintf(fichier,"%d/%d/%d %d:%d:%d;%d;%s\n",temps.tm_mday,temps.tm_mon+1,temps.tm_year+1900,temps.tm_hour,temps.tm_min,temps.tm_sec,typeTimeSaver,stockageNom);
@@ -160,8 +168,12 @@ void statsFreqMois()
   int i=0;
   //variable servant de séparation pour strtok()
   char sep[2]="/";
+  //variable contenant le chemin d'accès du fichier historique
+  char adresseHisto[75];
+  strcpy(adresseHisto,getenv("EXIASAVER_HOME"));
+  strcat(adresseHisto,"/historique.txt");
   
-  historique = fopen("historique.txt","r");
+  historique = fopen(adresseHisto,"r");
 
   //On passe les quatre lignes de commentaires qui ne doivent pas être analyser
   for(i=0;i<4;i++)
@@ -214,8 +226,12 @@ void statsTypeTS()
   char sep[2]=";";
   //chaine de caractère utilisé pour afficher le caractère "%"
   char pourcent[2]="%";
+  //Variable contenant le chemin d'accès du fichier historique
+  char adresseHisto[75];
+  strcpy(adresseHisto,getenv("EXIASAVER_HOME"));
+  strcat(adresseHisto,"/historique.txt");
   
-  historique = fopen("historique.txt","r");
+  historique = fopen(adresseHisto,"r");
 
   //On passe les quatres premiers lignes qui sont des commentaires
   for (i=0;i<4;i++)
@@ -271,15 +287,20 @@ void statsImgStatique()
   char sep[2]=";";
   //
   float pomme = 0;
-  float ex2 = 0;
-  float ex3 = 0;
-  float numero2 = 0;
-  float numero3 = 0;
+  float mario = 0;
+  float dinosaure = 0;
+  float smiley = 0;
+  float tasse = 0;
   float totalImg = 0;
   //
   char pourcent[2]="%";
 
-  historique = fopen("historique.txt","r");
+  //Variable contenant le chemin d'accès du fichier historique
+  char adresseHisto[75];
+  strcpy(adresseHisto,getenv("EXIASAVER_HOME"));
+  strcat(adresseHisto,"/historique.txt");
+ 
+  historique = fopen(adresseHisto,"r");
 
   //
   for(i=0;i<4;i++)
@@ -301,27 +322,27 @@ void statsImgStatique()
 	    {
 	      pomme++;
 	    }
-	  else if (strcmp(conteneur,"ex2.pbm\n") == 0)
+	  else if (strcmp(conteneur,"dinosaure.pbm\n") == 0)
 	    {
-	      ex2++;
+	      dinosaure++;
 	    }
-	  else if (strcmp(conteneur,"ex3.pbm\n") == 0)
+	  else if (strcmp(conteneur,"mario.pbm\n") == 0)
 	    {
-	      ex3++;
+	      mario++;
 	    }
-	  else if (strcmp(conteneur,"2.pbm\n") == 0)
+	  else if (strcmp(conteneur,"smiley.pbm\n") == 0)
 	    {
-	      numero2++;
+	      smiley++;
 	    }
-	  else if (strcmp(conteneur,"3.pbm\n") == 0)
+	  else if (strcmp(conteneur,"tasse.pbm\n") == 0)
 	    {
-	      numero3++;
+	      tasse++;
 	    }
 	}
     }
 
-  totalImg = pomme + ex2 + ex3 + numero2 + numero3;
-  printf("Il y a eu un total de %.0f lancements, pour %.2f%s de pomme.pbm, %.2f%s de ex2.pbm, %.2f%s de ex3.pbm, %.2f%s de 2.pbm et %.2f%s de 3.pbm\n",totalImg,pomme*100/totalImg,pourcent,ex2*100/totalImg,pourcent,ex3*100/totalImg,pourcent,numero2*100/totalImg,pourcent,numero3*100/totalImg,pourcent); 
+  totalImg = pomme + dinosaure + mario + smiley + tasse;
+  printf("Il y a eu un total de %.0f lancements, pour %.2f%s de pomme.pbm, %.2f%s de dinosaure.pbm, %.2f%s de mario.pbm, %.2f%s de smiley.pbm et %.2f%s de tasse.pbm\n",totalImg,pomme*100/totalImg,pourcent,dinosaure*100/totalImg,pourcent,mario*100/totalImg,pourcent,smiley*100/totalImg,pourcent,tasse*100/totalImg,pourcent); 
 }
 
 void statistique()

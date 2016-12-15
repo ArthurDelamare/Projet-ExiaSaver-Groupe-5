@@ -17,6 +17,8 @@ int main(int argc, char *argv[])
 	const char s[2] = " ";
 	char *token;
 	unsigned int n;
+	char containerForRow[10];
+	char containerForCol[10];
 
 	//Effacer l'ecran
 	system("clear");  
@@ -31,9 +33,11 @@ int main(int argc, char *argv[])
 	fgets(ligne, 255, fichier);
 	fgets(ligne, 255, fichier); 
 	fgets(ligne, 255, fichier);
+	strcpy(containerForRow, strtok(ligne,s));
+	strcpy(containerForCol, strtok(NULL, s));
 
 	//Centrage de l'image en fonction des lignes 
-	for(n=0; n<(row-15)/2; n++)
+	for(n=0; n<(row-atoi(containerForRow))/2; n++)
 	{
 	printf("\n");
 	}
@@ -44,7 +48,7 @@ int main(int argc, char *argv[])
 		token = strtok(ligne, s);
 
 		//Centrage de l'image en fonction des colonnes
-		for(n=0; n<(col-20)/2; n++)
+		for(n=0; n<(col-atoi(containerForCol))/2; n++)
 		{
 		putchar(' ');
 		}
@@ -71,7 +75,7 @@ int main(int argc, char *argv[])
 			}
 		}
 		//Centrage de l'image en fonction des lignes
-        for(n=0; n<(row-15)/2; n++)
+        for(n=0; n<(row-atoi(containerForRow))/2; n++)
         {
         printf("\n");
         }

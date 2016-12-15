@@ -6,46 +6,49 @@
 
 void analyse(char portion, char* conteneurChemin)
 {
+  char tamponVarEnv[75];
+  strcpy(tamponVarEnv,getenv("EXIASAVER2_PBM"));
+  
   //Vérifie à quel chiffre correspond le caractère envoyé et renvoit un chemin d'accès d'une image PBM
   if (portion == 48)
     {
-      strcpy(conteneurChemin,"EXIASAVER2_PBM/0.pbm");
+      strcpy(conteneurChemin,strcat(tamponVarEnv,"/0.pbm"));
     }
   else if (portion == 49)
     {
-      strcpy(conteneurChemin,"EXIASAVER2_PBM/1.pbm");
+      strcpy(conteneurChemin,strcat(tamponVarEnv,"/1.pbm"));
     }
   else if (portion == 50)
     {
-      strcpy(conteneurChemin,"EXIASAVER2_PBM/2.pbm");
+      strcpy(conteneurChemin,strcat(tamponVarEnv,"/2.pbm"));
     }
   else if (portion == 51)
     {
-      strcpy(conteneurChemin,"EXIASAVER2_PBM/3.pbm");
+      strcpy(conteneurChemin,strcat(tamponVarEnv,"/3.pbm"));
     }
   else if (portion == 52)
     {
-      strcpy(conteneurChemin,"EXIASAVER2_PBM/4.pbm");
+      strcpy(conteneurChemin,strcat(tamponVarEnv,"/4.pbm"));
     }
   else if (portion == 53)
     {
-      strcpy(conteneurChemin,"EXIASAVER2_PBM/5.pbm");
+      strcpy(conteneurChemin,strcat(tamponVarEnv,"/5.pbm"));
     }
   else if (portion == 54)
     {
-      strcpy(conteneurChemin,"EXIASAVER2_PBM/6.pbm");
+      strcpy(conteneurChemin,strcat(tamponVarEnv,"/6.pbm"));
     }
   else if (portion == 55)
     {
-      strcpy(conteneurChemin,"EXIASAVER2_PBM/7.pbm");
+      strcpy(conteneurChemin,strcat(tamponVarEnv,"/7.pbm"));
     }
   else if (portion == 56)
     {
-      strcpy(conteneurChemin,"EXIASAVER2_PBM/8.pbm");
+      strcpy(conteneurChemin,strcat(tamponVarEnv,"/8.pbm"));
     }
   else if (portion == 57)
     {
-      strcpy(conteneurChemin,"EXIASAVER2_PBM/9.pbm");
+      strcpy(conteneurChemin,strcat(tamponVarEnv,"/9.pbm"));
     }
 
 }
@@ -64,18 +67,28 @@ void heurePBM()
   char conteneurSecondes[3];
 
   //Variables contenant le chemin des images PBM composant l'heure
-  char cheminChiffre1[25];
-  char cheminChiffre2[25];
-  char cheminChiffre3[25];
-  char cheminChiffre4[25];
-  char cheminChiffre5[25];
-  char cheminChiffre6[25];
-  char separation1[25];
-  char separation2[25];
+  char cheminChiffre1[75];
+  char cheminChiffre2[75];
+  char cheminChiffre3[75];
+  char cheminChiffre4[75];
+  char cheminChiffre5[75];
+  char cheminChiffre6[75];
+  char separation1[75];
+  char separation2[75];
 
   char conteneurReec[50];
   int i;
   int nbcaractere;
+
+  //
+  char adressePoint[75];
+  char adresseCombi[75];
+  strcpy(adressePoint,getenv("EXIASAVER2_PBM"));
+  strcpy(adresseCombi,adressePoint);
+  //
+  strcat(adressePoint,"/:.pbm");
+  strcat(adresseCombi,"/combinaison.pbm");
+  printf("%s - %s\n",adressePoint,adresseCombi);
 
   //Initialisation de la structure du temps
   time(&secondes);
@@ -134,14 +147,14 @@ void heurePBM()
   FILE* point2;
 
   //Ouverture du fichier pbm contenant les deux points
-  point1 = fopen("EXIASAVER2_PBM/:.pbm", "r");
-  point2 = fopen("EXIASAVER2_PBM/:.pbm", "r");
+  point1 = fopen(adressePoint, "r");
+  point2 = fopen(adressePoint, "r");
   //Ouverture et suppression du fichier pbm 
-  combinaison = fopen("EXIASAVER2_PBM/combinaison.pbm","w");
+  combinaison = fopen(adresseCombi,"w");
   fprintf(combinaison,"P1\n#Fichier combinant des images PBM pour créer l'image PBM de l'heure\n10 10\n");
   fclose(combinaison);
   //Ouverture des fichiers pbm
-  combinaison = fopen("EXIASAVER2_PBM/combinaison.pbm","a");
+  combinaison = fopen(adresseCombi,"a");
   chiffre1 = fopen(cheminChiffre1,"r");
   chiffre2 = fopen(cheminChiffre2,"r");
   chiffre3 = fopen(cheminChiffre3,"r");
@@ -224,10 +237,4 @@ void heurePBM()
   fclose(chiffre6);
   fclose(point1);
   fclose(point2);
-
-
 }
-
-
-
-

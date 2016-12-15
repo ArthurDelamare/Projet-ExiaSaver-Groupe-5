@@ -3,8 +3,9 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <string.h>
 
-int main(int argc, char* argv[])
+int main(int argc, char* argv[],char** envp[])
 {
   int pid;
   char c;
@@ -14,7 +15,7 @@ int main(int argc, char* argv[])
   pid = fork();
   if (pid == 0)
     {
-      execl("Afficheur",argv[0],NULL);
+      execl(strcat(getenv("EXIASAVER_HOME"),"/Afficheur"),argv[0],NULL);
     }
   else
     {

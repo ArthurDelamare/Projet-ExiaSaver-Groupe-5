@@ -16,66 +16,156 @@ void initTableau(int tab[][60])
 
 void moveDroite(int x,int y,int tab[23][60])
 {
-  //Rangée centrale de l'avion
-  tab[y][x]=1;
-  tab[y][x+1]=1;
-  tab[y][x+2]=1;
-  tab[y][x-1]=1;
-  tab[y][x-2]=1;
-  tab[y][x-3]=1;
-
+ //Rangée centrale de l'avion
+  if (x+2<59)
+    {
+      tab[y][x+2]=1;  
+    }
+  else if (x+2>59)
+    {
+      tab[y][x+2-59]=1;
+    }
+  if (x+1<59)
+    {
+      tab[y][x+1]=1;
+      tab[y+1][x+1]=1;
+      tab[y-1][x+1]=1;
+    }
+  else if (x+1>59)
+    {
+      tab[y][x+1-59]=1;
+      tab[y+1][x+1-59]=1;
+      tab[y-1][x+1-59]=1;
+    }
+  if (x<59)
+    {
+      tab[y][x]=1;
+      tab[y-2][x]=1;
+      tab[y+2][x]=1;
+    }
+  else if (x>59)
+    {
+      tab[y][x-59]=1;
+      tab[y-2][x-59]=1;
+    }
+  if (x-1>0)
+    {
+      tab[y][x-1]=1;
+    }
+  if (x-2>0)
+    {
+      tab[y][x-2]=1;
+    }
+  
   //Queue de l'avion
-  tab[y-1][x-3]=1;
-
-  //Ailes de l'avion
-  tab[y-1][x+1]=1;
-  tab[y-2][x]=1;
-  tab[y+1][x+1]=1;
-  tab[y+2][x]=1;
-
+  if (x-3>0)
+    {
+      tab[y-1][x-3]=1;
+      tab[y][x-3]=1;
+    }
 }
 
 void moveGauche(int x, int y,int tab[23][60])
 {
-  //Rangée centrale de l'avion
-  tab[y][x]=1;
-  tab[y][x+1]=1;
-  tab[y][x+2]=1;
-  tab[y][x+3]=1;
-  tab[y][x-1]=1;
-  tab[y][x-2]=1;
-
+ //Rangée centrale de l'avion
+  if (x-2<59)
+    {
+      tab[y][x-2]=1;  
+    }
+  else if (x-2>59)
+    {
+      tab[y][x-2+59]=1;
+    }
+  if (x-1<59)
+    {
+      tab[y][x-1]=1;
+      tab[y+1][x-1]=1;
+      tab[y-1][x-1]=1;
+    }
+  else if (x-1>59)
+    {
+      tab[y][x-1+59]=1;
+      tab[y+1][x-1+59]=1;
+      tab[y-1][x-1+59]=1;
+    }
+  if (x<59)
+    {
+      tab[y][x]=1;
+      tab[y+2][x]=1;
+      tab[y-2][x]=1;
+    }
+  else if (x>59)
+    {
+      tab[y][x+59]=1;
+      tab[y+2][x+59]=1;
+    }
+  if (x+1>0)
+    {
+      tab[y][x+1]=1;
+    }
+  if (x+2>0)
+    {
+      tab[y][x+2]=1;
+    }
+  
   //Queue de l'avion
-  tab[y-1][x+3]=1;
-
-  //Ailes de l'avion
-  tab[y-1][x-1]=1;
-  tab[y-2][x]=1;
-  tab[y+1][x-1]=1;
-  tab[y+2][x]=1;
-
+  if (x+3>0)
+    {
+      tab[y-1][x+3]=1;
+      tab[y][x+3]=1;
+    }
 }
 
 void moveHaut(int x, int y,int tab[23][60])
 {
  
  //Rangée centrale de l'avion
-  tab[y][x]=1;
-  tab[y-1][x]=1;
-  tab[y-2][x]=1;
-  tab[y+1][x]=1;
-  tab[y+2][x]=1;
-  tab[y+3][x]=1;
-
-  //Queue de l'avion
-  tab[y+3][x-1]=1;
-
-  //Ailes de l'avion
-  tab[y-1][x-1]=1;
-  tab[y][x-2]=1;
-  tab[y-1][x+1]=1;
-  tab[y][x+2]=1;
+  if (y-2>0)
+    {
+      tab[y-2][x]=1;  
+    }
+  else if (y-2<19)
+    {
+      tab[y-2+19][x]=1;
+    }
+  if (y-1>0)
+    {
+      tab[y-1][x]=1;
+      tab[y-1][x-1]=1;
+      tab[y-1][x+1]=1;
+    }
+  else if (y-1<0)
+    {
+      tab[y-1+19][x]=1;
+      tab[y-1+19][x+1]=1;
+      tab[y-1+19][x-1]=1;
+    }
+  if (y>0)
+    {
+      tab[y][x]=1;
+      tab[y][x-2]=1;
+      tab[y][x+2]=1;
+    }
+  else if (y<0)
+    {
+      tab[y+19][x]=1;
+      tab[y+19][x+2]=1;
+    }
+  if (y+1>0)
+    {
+      tab[y+1][x]=1;
+    }
+  if (y+2>0)
+    {
+      tab[y+2][x]=1;
+    }
   
+  //Queue de l'avion
+  if (y+3>0)
+    {
+      tab[y+3][x-1]=1;
+      tab[y+3][x]=1;
+    }
 }
 
 void moveBas(int x, int y,int tab[23][60])

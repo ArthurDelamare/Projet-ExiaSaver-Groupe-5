@@ -59,6 +59,11 @@ int main(int argc, char* argv[], char** envp)
 	  initTableau(tabTerrain);
 	  moveDroite(x,y,tabTerrain);
 	  x++;
+
+    if (x>59)
+    {
+      x=x-59;
+    }
 	}
       //Si l'utilisateur appuie sur la touche q, l'avion va à gauche
       else if (move == 'q')
@@ -66,6 +71,11 @@ int main(int argc, char* argv[], char** envp)
 	  initTableau(tabTerrain);
 	  moveGauche(x,y,tabTerrain);
 	  x--;
+
+    if (x<0)
+    {
+      x=x+59;
+    }
 	}
       //Si l'utilisateur appuie sur la touche z, l'avion va en haut
       else if (move == 'z')
@@ -73,6 +83,11 @@ int main(int argc, char* argv[], char** envp)
 	  initTableau(tabTerrain);
 	  moveHaut(x,y,tabTerrain);
 	  y--;
+
+    if (y<0)
+    {
+      y=y+19;
+    }
 	}
       //Si l'utilisateur appuie sur la touche s, l'avion va en bas
       else if (move == 's')

@@ -8,17 +8,20 @@
 
 void choixFichier(int n,char* chemin)
 {
+  //utilisation de la structure relative au répertoire
   DIR* repPBM;
   struct dirent* fichierLu;
   int i = 0;
   char containerFileName[256];
-  
+
+  //ouverture du répertoire d'image PBM de l'écran statique
   repPBM = opendir(getenv("EXIASAVER1_PBM"));
   if (repPBM == NULL)
     {
       perror("");
     }
 
+  //on lit le repertoire jusqu'au fichier voulu (déterminé aléatoirement préalablement)
   while(i != n)
     {
       fichierLu = readdir(repPBM);
@@ -30,7 +33,8 @@ void choixFichier(int n,char* chemin)
     }
 
   closedir(repPBM);
-  
+
+  //copie d'une partie du chemin dans la variable "chemin"
   strcat(chemin,"/");
   strcat(chemin,containerFileName);
 }
@@ -70,15 +74,18 @@ void historique(int typeTimeSaver, char* nomFichierPBM1, char* posAvion)
       strcpy(stockageNom,strtok(NULL,sep));
       strcpy(stockageNom,strtok(NULL,sep));
       strcpy(stockageNom,strtok(NULL,sep));
-      
+
+      //écriture dans l'historique
       fprintf(fichier,"%d/%d/%d %d:%d:%d;%d;%s\n",temps.tm_mday,temps.tm_mon+1,temps.tm_year+1900,temps.tm_hour,temps.tm_min,temps.tm_sec,typeTimeSaver,stockageNom);
     }
   else if (typeTimeSaver == 2)
     {
+      //écriture dans l'historique
       fprintf(fichier,"%d/%d/%d %d:%d:%d;%d;%s\n",temps.tm_mday,temps.tm_mon+1,temps.tm_year+1900,temps.tm_hour,temps.tm_min,temps.tm_sec,typeTimeSaver,getenv("EXIASAVER2_TAILLE"));
     }
   else if (typeTimeSaver == 3)
     {
+      //écriture dans l'historique
       fprintf(fichier,"%d/%d/%d %d:%d:%d;%d;%s\n",temps.tm_mday,temps.tm_mon+1,temps.tm_year+1900,temps.tm_hour,temps.tm_min,temps.tm_sec,typeTimeSaver,posAvion);
     }
   
@@ -92,6 +99,7 @@ void choixVarEnv()
   char newVarEnv[75];
   int choixVarEnv = 1;
 
+  //Boucle permettant de saisir temporairement une variable d'environnement
   while(choixVarEnv != 0)
   {
   printf("Quel variable d'environnement souhaitez vous changer?\n1: EXIASAVER_HOME\n2: EXIASAVER1_PBM\n3: EXIASAVER2_PBM\n4: EXIASAVER2_TAILLE\n5: EXIASAVER2_SLEEP\n6: EXIASAVER3_PBM\n0: quitter ce menu et lancer le programme\n");
@@ -251,7 +259,8 @@ void statsTypeTS()
 
   //Tri du tableau
   triBulle(tableauTypeTS,200);
-  
+
+  //incrémentation afin de compter les différents types d'écrans de veille
   for(i=0;i<200;i++)
     {
       if (tableauTypeTS[i] == 1)
@@ -277,22 +286,22 @@ void statsImgStatique()
 {
   //Tableau destiné à contenir les nom des images repertoriées dans l'historique
   char tableauImgHisto[200][15];
-  //
+  //variable permettant de manipuler le fichier historique
   FILE* historique;
-  //
+  //variable permettant de récupérer et manipuler les lignes de l'historique
   char conteneur[100];
-  //
+  //variable servant de compteur
   int i;
-  //
+  //variable utilisé comme séparateur pour strtok()
   char sep[2]=";";
-  //
+  //variables pour compter l'utilisation des  images
   float pomme = 0;
   float mario = 0;
   float dinosaure = 0;
   float smiley = 0;
   float tasse = 0;
   float totalImg = 0;
-  //
+  
   char pourcent[2]="%";
 
   //Variable contenant le chemin d'accès du fichier historique
@@ -302,22 +311,22 @@ void statsImgStatique()
  
   historique = fopen(adresseHisto,"r");
 
-  //
+  //on sépare les 4 lignes de commentaires qui ne sont pas à analyser
   for(i=0;i<4;i++)
     {
       fgets(conteneur,100,historique);
     }
 
-  //
+  //Tant qu'on a pas lu toutes les lignes de l'historique
   while((fgets(conteneur,100,historique)) != NULL)
     {
-      //
+      //Séparation des données de l'historique et récupération des noms de fichiers lorsqu'il s'agit d'un lancement d'écran statique
       strcpy(conteneur,strtok(conteneur,sep));
       strcpy(conteneur,strtok(NULL,sep));
       if (strcmp(conteneur,"1") ==0)
 	{
 	  strcpy(conteneur,strtok(NULL,sep));
-	  //
+	  //incrémentation d'une variable précise lorsqu'on détecte le nom d'un des fichiers
 	  if (strcmp(conteneur,"pomme.pbm\n") == 0)
 	    {
 	      pomme++;
@@ -341,6 +350,7 @@ void statsImgStatique()
 	}
     }
 
+  //Affichage des résultats
   totalImg = pomme + dinosaure + mario + smiley + tasse;
   printf("Il y a eu un total de %.0f lancements, pour %.2f%s de pomme.pbm, %.2f%s de dinosaure.pbm, %.2f%s de mario.pbm, %.2f%s de smiley.pbm et %.2f%s de tasse.pbm\n",totalImg,pomme*100/totalImg,pourcent,dinosaure*100/totalImg,pourcent,mario*100/totalImg,pourcent,smiley*100/totalImg,pourcent,tasse*100/totalImg,pourcent); 
 }
@@ -351,6 +361,7 @@ void statistique()
   int choixStats;
   printf("Bienvenue dans la partie statistique (effectué sur un échantillon de 200 lancements maximum)\nQuelle est la statistique qui vous intéresse ?\n1: la moyenne de lancement par mois\n2: le pourcentage de lancement selon les types de termSaver\n3: le pourcentage d'utilisation des différentes images en screenSaver statique\n");
   scanf("%d",&choixStats);
+  //Selon le choix de l'utilisateur, lancement d'une des fonctions
   if (choixStats == 1)
     {
       statsFreqMois();

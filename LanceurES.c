@@ -16,10 +16,14 @@ int main(int argc, char* argv[],char** envp)
     }
     
   //Déclaration de variables utilisées dans ce programme
-  int nbProgramme = 0; //variable stockant le numero du programme a executé
-  int pid; //variable permettant de savoir s'il s'agit du proccesus père ou fils
+  //variable stockant le numero du programme a executé
+  int nbProgramme = 0;
+  //variable permettant de savoir s'il s'agit du proccesus père ou fils
+  int pid;
+  //variable stockant le numero de l'image PBM à afficher (écran statique)
   int fichierChoisi;
   char chemin[256]="";
+  //variable stockant le chemin d'accès d'un executable
   char adresseExe[100];
   
   system("clear");
@@ -28,32 +32,40 @@ int main(int argc, char* argv[],char** envp)
       //détermination aléatoire du programme a lancé
       srand(time(NULL));
       nbProgramme = (rand() % 3) + 1;
-      printf("le programme à lancer est le numero %d\n", nbProgramme);
+      //création d'un processus fils qui exécute l'écran de veille
       pid = fork();
       if (pid == 0)
 	{
 	  if (nbProgramme == 1)
 	    {
+	      //Choix aléatoire de l'image PBM à afficher
 	      fichierChoisi = (rand() % 5) + 1 ;
-	      printf("le fichier a affiche est le %d\n", fichierChoisi);
 	      choixFichier(fichierChoisi,chemin);
+	      //détermination du chemin de l'image à afficher
 	      strcpy(chemin,strcat(getenv("EXIASAVER1_PBM"),chemin));
-	      printf("Salut %s\n",chemin);
+	      //Sauvegarde des données dans l'historique
 	      historique(1,chemin,"");
+	      //détermination du chemin de l'exécutable
 	      strcpy(adresseExe,getenv("EXIASAVER_HOME"));
+	      //exécution de l'écran de veille statique
 	      execl(strcat(adresseExe,"/exiasaver1"),chemin,NULL);
 	      exit(1);
 	    }
 	  else if (nbProgramme == 2)
 	    {
+	      //Sauvegarde des données dans l'historique
 	      historique(2,"","");
+	      //détermination du chemin de l'exécutable
 	      strcpy(adresseExe,getenv("EXIASAVER_HOME"));
+	      //exécution de l'écran de veille dynamique
 	      execl(strcat(adresseExe,"/exiasaver2"),"",NULL);
 	      exit(2);
 	    }
 	  else if (nbProgramme == 3)
 	    {
+	      //Sauvegarde des données dans l'historique
 	      historique(3,"","9x10");
+	      //détermination du chemin de l'exécutable
 	      strcpy(adresseExe,getenv("EXIASAVER_HOME"));
 	      execl(strcat(adresseExe,"/exiasaver3"),"9x10",NULL);
 	      exit(3);

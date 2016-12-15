@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 void initTableau(int tab[][60])
 {
@@ -133,8 +134,12 @@ void printTabPBM(int tab[23][60])
 {
   FILE* avion;
   int i,j;
-  
-  avion = fopen("EXIASAVER3_PBM/avion.pbm","w");
+  //Variable tampon permettant de définir le chemin d'accès à l'image PBM
+  char adresseAvion[75];
+  strcpy(adresseAvion,getenv("EXIASAVER3_PBM"));
+  strcpy(adresseAvion,strcat(adresseAvion,"/avion.pbm"));
+ 
+  avion = fopen(adresseAvion,"w");
   fprintf(avion,"P1\n#Image PBM d'un avion utilisé dans l'écran de veille statique\n23 60\n");
 
   for(j=0;j<23;j++)
